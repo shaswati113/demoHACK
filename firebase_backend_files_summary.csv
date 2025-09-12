@@ -1,0 +1,24 @@
+File Path,Type,Description
+package.json,Configuration,Root package.json with project metadata and scripts
+firebase.json,Configuration,Firebase project configuration including emulators and deployment settings
+.firebaserc,Configuration,Firebase project aliases configuration
+firestore.rules,Security,Firestore security rules with role-based access control
+firestore.indexes.json,Database,Firestore composite indexes for optimized queries
+tsconfig.json,Configuration,Root TypeScript configuration
+functions/package.json,Configuration,Functions package.json with Firebase Functions dependencies
+functions/tsconfig.json,Configuration,Functions-specific TypeScript configuration
+functions/src/types/user.ts,Types,TypeScript interfaces and enums for user roles and authentication
+functions/src/types/request.ts,Types,Request/response interfaces for API endpoints
+functions/src/auth/authController.ts,Controller,Authentication controller with role-specific login/registration
+functions/src/middleware/auth.ts,Middleware,Authentication middleware for token verification and role checking
+functions/src/models/User.ts,Model,User model with CRUD operations and role-specific profile creation
+functions/src/controllers/userController.ts,Controller,User management controller for profile operations and user queries
+functions/src/utils/validation.ts,Utility,Input validation schemas and functions using Joi
+functions/src/utils/roleValidator.ts,Utility,Role-based permission validation and hierarchy management
+functions/src/utils/config.ts,Configuration,Environment configuration and feature flags
+functions/src/index.ts,Main,Main Express application with all API routes and Firebase triggers
+README.md,Documentation,"Comprehensive documentation with setup, API endpoints, and usage examples"
+.gitignore,Configuration,"Git ignore rules for Node.js, Firebase, and IDE files"
+.env.example,Configuration,Example environment variables configuration
+setup.sh,Script,Automated setup script for project initialization
+deploy.sh,Script,Deployment script for Firebase Functions and Firestore rules
