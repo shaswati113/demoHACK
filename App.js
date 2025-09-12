@@ -10,7 +10,7 @@ function App(){
     <Router>
       <div className="app">
         <header className="header">
-          <div className="logo">EduSafe</div>
+          <div className="logo">Edge of Survival</div>
           <div className="subtle">Gamified Disaster Preparedness</div>
         </header>
 
