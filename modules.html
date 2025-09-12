@@ -3,48 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edge of Survival - Modules</title>
+  <title>Edge of Survival - Disaster Modules</title>
+  
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  
+  <!-- Anime.js -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
   <style>
     body {
       margin: 0;
       font-family: "Orbitron", sans-serif;
       color: white;
-      background: linear-gradient(135deg, #D5B893, #632024);
+      background: linear-gradient(135deg, #25344F, #632024);
       height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
+
     .background-animation { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden; }
-    .circle { position:absolute; border-radius:50%; background-color:rgba(255,255,255,0.1); }
+    .circle { position:absolute; border-radius:50%; background-color:rgba(255,255,255,0.08); }
+
     header {
       position:relative; z-index:1; text-align:center; padding:20px;
       background:rgba(0,0,0,0.3);
+      border-bottom: 3px solid #D5B893;
     }
-    header h1 { font-size:2.5rem; }
-    header p { color:#fff; }
+    header h1 { font-size:2.5rem; color:#D5B893; }
+    header p { color:#718791; font-size:1.2rem; }
+
     main {
       position:relative; z-index:1;
       display:flex; flex-wrap:wrap;
-      justify-content:center; gap:20px;
+      justify-content:center; gap:25px;
       padding:40px;
     }
-    .btn {
-      padding: 15px 30px;
-      border:none;
-      border-radius:12px;
-      font-weight:bold;
-      font-size:1.2rem;
-      cursor:pointer;
-      background:#617890;
-      color:white;
-      transition:all 0.3s ease;
-      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+
+    .module-box {
+      padding: 20px;
+      border-radius: 14px;
+      background: #718791; /* Slate Gray */
+      color: white;
+      font-weight: bold;
+      font-size: 1.3rem;
+      text-align: center;
+      cursor: pointer;
+      min-width: 220px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .btn:hover {
-      background:#25344F;
-      box-shadow:0 0 20px #25344F;
+
+    .module-box:hover {
+      background:#25344F; /* Space Cadet */
+      box-shadow:0 0 20px #D5B893;
       transform:scale(1.05);
     }
   </style>
@@ -53,19 +69,19 @@
   <div class="background-animation" id="background"></div>
 
   <header>
-    <h1>Modules</h1>
-    <p>Select a quiz module</p>
+    <h1>Disaster Modules</h1>
+    <p>Choose a disaster to learn survival skills</p>
   </header>
 
   <main id="moduleList"></main>
 
   <script>
-    // Floating circles background
+    // Floating background animation
     const bg=document.getElementById('background');
-    for(let i=0;i<40;i++){
+    for(let i=0;i<30;i++){
       const circle=document.createElement('div');
       circle.classList.add('circle');
-      const size=Math.random()*80+20;
+      const size=Math.random()*70+20;
       circle.style.width=`${size}px`;
       circle.style.height=`${size}px`;
       circle.style.left=`${Math.random()*100}%`;
@@ -81,17 +97,48 @@
       });
     }
 
-    // Generate numbered modules
-    const moduleList=document.getElementById("moduleList");
-    const totalModules = 8; // change this to how many quizzes you have
+    // Firebase config (replace with your values)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    for (let i=1; i<=totalModules; i++) {
-      let btn=document.createElement("button");
-      btn.className="btn";
-      btn.textContent="Module " + i;
-      btn.onclick=()=>window.location.href="module"+i+".html"; 
-      moduleList.appendChild(btn);
+    // Load disaster modules
+    async function loadDisasters() {
+      const moduleList = document.getElementById("moduleList");
+      moduleList.innerHTML = "";
+
+      try {
+        const snapshot = await db.collection("disasters").get();
+        snapshot.forEach((doc) => {
+          const disaster = doc.data();
+
+          let box = document.createElement("div");
+          box.className = "module-box";
+          box.textContent = disaster.name || "Unnamed Disaster";
+
+          box.onclick = () => {
+            if (disaster.link) {
+              window.location.href = disaster.link;
+            } else {
+              alert("No quiz linked for this disaster yet!");
+            }
+          };
+
+          moduleList.appendChild(box);
+        });
+      } catch (error) {
+        console.error("Error fetching disasters: ", error);
+      }
     }
+
+    loadDisasters();
   </script>
 </body>
 </html>

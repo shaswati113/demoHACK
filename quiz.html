@@ -1,62 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Disaster Quiz</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="libs/jquery.min.js"></script>
-  <script src="libs/anime.min.js"></script>
-  <script src="libs/react.development.js"></script>
-  <script src="libs/react-dom.development.js"></script>
-  <script src="libs/babel.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
 </head>
 <body>
-  <canvas id="backgroundCanvas"></canvas>
-  <div id="quiz-root"></div>
+    <div class="quiz-container">
+        <div id="scenario-container" class="scenario-container">
+            <!-- The scenario will appear here -->
+        </div>
+        <div id="options-container" class="options-container">
+            <!-- The options will be dynamically generated here -->
+        </div>
+        <button id="next-btn" class="next-btn" style="display:none;">Next</button>
+    </div>
 
-  <script src="js/scenarioGenerator.js"></script>
-  <script type="text/babel" src="js/quiz.js"></script>
-  <script>
-  const canvas = document.getElementById("backgroundCanvas");
-  const ctx = canvas.getContext("2d");
+    <div id="result-page" class="result-page" style="display:none;">
+        <h2 id="result-message"></h2>
+        <button onclick="restartQuiz()">Start Over</button>
+    </div>
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  let particles = [];
-
-  function createParticle() {
-    return {
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 1,
-      dx: (Math.random() - 0.5) * 1.5,
-      dy: (Math.random() - 0.5) * 1.5
-    };
-  }
-
-  for (let i = 0; i < 100; i++) {
-    particles.push(createParticle());
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach((p) => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = "#1e88e5";
-      ctx.fill();
-      p.x += p.dx;
-      p.y += p.dy;
-
-      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-    });
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-</script>
+    <script src="app.js"></script>
 </body>
 </html>
