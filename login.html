@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<style>
+  body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; background:#f0f4f8; }
+  .container { background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:300px; }
+  input { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc; }
+  button { width:100%; padding:10px; margin-top:15px; border:none; background:#007BFF; color:#fff; border-radius:8px; cursor:pointer; }
+  button:hover { background:#0056b3; }
+  .link { text-align:center; margin-top:10px; }
+  .link a { color:#007BFF; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <button onclick="login()">Login</button>
+  <div class="link">Don't have an account? <a href="signup.html">Sign Up</a></div>
+</div>
+
+<script>
+  // Firebase config here
+  const firebaseConfig = {
+  apiKey: "AIzaSyDCMr1zHLC26cr5Y-Dzq1Ju2aC-7_voXLo",
+  authDomain: "edge-of-survival-17795.firebaseapp.com",
+  projectId: "edge-of-survival-17795",
+  storageBucket: "edge-of-survival-17795.firebasestorage.app",
+  messagingSenderId: "474806016374",
+  appId: "1:474806016374:web:6f83abe843e4e0bbca4257",
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        alert('Login successful!');
+        // Redirect to dashboard or main page
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }
+</script>
+</body>
+</html>
+
