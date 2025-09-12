@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Generated Quiz</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
-=======
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Disaster Quiz</title>
   <link rel="stylesheet" href="quiz.css">
-  <script src="libs/jquery.min.js"></script>
-  <script src="libs/anime.min.js"></script>
-  <script src="libs/react.development.js"></script>
-  <script src="libs/react-dom.development.js"></script>
-  <script src="libs/babel.min.js"></script>
->>>>>>> 4548b30f733e56f687ca62417082441c5b737e9e
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
 <body>
-    <div class="quiz-container">
-        <div id="scenario-container" class="scenario-container">
-            <!-- The scenario will appear here -->
-        </div>
-        <div id="options-container" class="options-container">
-            <!-- The options will be dynamically generated here -->
-        </div>
-        <button id="next-btn" class="next-btn" style="display:none;">Next</button>
-    </div>
+  <div class="quiz-container">
+    <div id="scenario-container" class="scenario-container"></div>
+    <div id="options-container" class="options-container"></div>
+    <button id="next-btn" class="next-btn" style="display:none;">Next</button>
+  </div>
 
-    <div id="result-page" class="result-page" style="display:none;">
-        <h2 id="result-message"></h2>
-        <button onclick="restartQuiz()">Start Over</button>
-    </div>
+  <div id="result-page" class="result-page" style="display:none;">
+    <h2 id="result-message"></h2>
+    <button onclick="finishQuiz()">Finish</button>
+  </div>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Called when quiz ends
+    function finishQuiz() {
+      // Example: score = 80 (replace with real score from your app.js)
+      const score = window.quizScore || Math.floor(Math.random() * 100);
+      const isSuccess = score > 50; // Example pass condition
+
+      // Redirect to result.html with data in query string
+      window.location.href = `result.html?success=${isSuccess}&score=${score}`;
+    }
+  // Read quiz number from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const quizNumber = urlParams.get("quiz") || 1; // default to quiz 1
+
+  console.log("Loading Quiz:", quizNumber);
+
+  // You can now use quizNumber inside your scenario generator
+  // Example: window.generateScenario("Earthquake") based on quizNumber
+
+  </script>
 </body>
 </html>

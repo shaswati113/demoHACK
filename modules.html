@@ -1,131 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Select Your Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-  <!-- Firebase SDK (can be used later) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="modules.css">
   <style>
     body {
-      margin: 0;
-      font-family: "Orbitron", sans-serif;
-      color: white;
-      background: linear-gradient(135deg, #2C3E50, #4CA1AF);
-      height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-    }
-    header h1 { font-size: 2.5rem; }
-    main {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #3a6186, #89253e);
+      min-height: 100vh;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      padding: 40px;
-    }
-    .quiz-card {
-      width: 220px;
-      height: 150px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      align-items: center;
       padding: 20px;
+      color: white;
+    }
+
+    .modules-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .module-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: 0.3s ease-in-out;
+      border: 2px solid white;
     }
-    .quiz-card:hover {
-      background: rgba(255,255,255,0.2);
+
+    .module-box:hover {
+      background: white;
+      color: #89253e;
       transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-    .quiz-title {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-    }
-    .quiz-desc {
-      font-size: 0.9rem;
-      color: #ddd;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Select Your Quiz</h1>
-    <p>Choose a quiz module to start</p>
-  </header>
+  <div class="modules-container">
+    <!-- Example static boxes -->
+    <div class="module-box" onclick="openQuiz(1)">Quiz 1</div>
+    <div class="module-box" onclick="openQuiz(2)">Quiz 2</div>
+    <div class="module-box" onclick="openQuiz(3)">Quiz 3</div>
+    <div class="module-box" onclick="openQuiz(4)">Quiz 4</div>
+  </div>
 
-  <main id="quizList">
-    <!-- Example boxes (these will always show) -->
-    <div class="quiz-card" onclick="window.location.href='quiz.html?id=1'">
-      <div class="quiz-title">Quiz 1</div>
-    </div>
-    <div class="quiz-card" onclick="window.location.href='quiz.html?id=2'">
-      <div class="quiz-title">Quiz 2</div>
-    </div>
-    <div class="quiz-card" onclick="window.location.href='quiz.html?id=3'">
-      <div class="quiz-title">Quiz 3</div>
-    </div>
-    <div class="quiz-card" onclick="window.location.href='quiz.html?id=4'">
-      <div class="quiz-title">Quiz 4</div>
-    </div>
-    <div class="quiz-card" onclick="window.location.href='quiz.html?id=5'">
-      <div class="quiz-title">Quiz 5</div>
-    </div>
-  </main>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
-    // Firebase Config (replace with yours later)
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const quizList = document.getElementById("quizList");
-
-    // Firestore loader (can replace example boxes in future)
-    async function loadQuizzes() {
-      try {
-        const snapshot = await getDocs(collection(db, "quizzes"));
-        if (!snapshot.empty) {
-          quizList.innerHTML = ""; // Clear example boxes if Firestore has data
-          snapshot.forEach(doc => {
-            const quiz = doc.data();
-            const card = document.createElement("div");
-            card.className = "quiz-card";
-            card.innerHTML = `
-              <div class="quiz-title">${quiz.title}</div>
-              <div class="quiz-desc">${quiz.description}</div>
-            `;
-            card.onclick = () => window.location.href = `quiz.html?id=${doc.id}`;
-            quizList.appendChild(card);
-          });
-        }
-      } catch (err) {
-        console.error("Firestore error:", err);
-      }
+  <script>
+    function openQuiz(quizNumber) {
+      // Redirect to quiz.html and pass quiz number
+      window.location.href = `quiz.html?quiz=${quizNumber}`;
     }
-
-    loadQuizzes();
   </script>
 </body>
 </html>
