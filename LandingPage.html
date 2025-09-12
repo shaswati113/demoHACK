@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edge Of Survival</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Orbitron';
+      height: 100%;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    div.per{
+        transform:perspective(300px) rotateX(-15deg);
+    }
+    div.pery{
+        transform:perspective(300px) rotateX(15deg);
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .landing-container {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 6em;
+      color: #cb0404;
+      
+    }
+
+    .subtitle {
+      font-size: 1.5em;
+      color: #ccc;
+      margin: 10px 0 30px;
+    }
+
+    .signup-btn {
+      font-family:Orbitron;
+      padding: 15px 40px;
+      font-size: 1.3em;
+      border: none;
+      border-radius: 10px;
+      background-color: transparent;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+
+    }
+
+    .signup-btn:hover {
+      background-color:#4a0606;
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    }
+  </style>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <div class="landing-container">
+    <div class="per title">Edge Of</div>
+    <div class=" pery title">Survival</div>
+    <p class="subtitle">Enter the portal to begin your survival journey.</p>
+    <button class="signup-btn" onclick="alert('Signup triggered!')">Sign Up Now</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("starfield");
+    const ctx = canvas.getContext("2d");
+
+    let stars = [];
+    const numStars = 400;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let focalLength = width;
+    let centerX = width / 2;
+    let centerY = height / 2;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      centerX = width / 2;
+      centerY = height / 2;
+      focalLength = width;
+      canvas.width = width;
+      canvas.height = height;
+    });
+
+    function randomColor() {
+      const colors = ['#ffffff', '#00ffc3', '#00aaff', '#ffdd00', '#ff00cc'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function Star() {
+      this.x = Math.random() * width - centerX;
+      this.y = Math.random() * height - centerY;
+      this.z = Math.random() * width;
+      this.color = randomColor();
+
+      this.update = () => {
+        this.z -= 4;
+        if (this.z <= 0) {
+          this.x = Math.random() * width - centerX;
+          this.y = Math.random() * height - centerY;
+          this.z = width;
+          this.color = randomColor();
+        }
+      };
+
+      this.draw = () => {
+        const k = focalLength / this.z;
+        const x = this.x * k + centerX;
+        const y = this.y * k + centerY;
+        const size = (1 - this.z / width) * 4;
+
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      };
+    }
+
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = 0; i < numStars; i++) {
+        stars[i].update();
+        stars[i].draw();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    createStars();
+    animate();
+  </script>
+</body>
+</html>
