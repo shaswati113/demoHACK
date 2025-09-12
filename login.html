@@ -6,78 +6,20 @@
 <title>Login - Edge Of Survival</title>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
-  body, html {
-    margin:0;
-    padding:0;
-    height:100%;
-    font-family: 'Orbitron', sans-serif;
-    overflow:hidden;
-    background:#000;
-    color:#fff;
-  }
-  canvas {
-    position:absolute;
-    top:0; left:0;
-    z-index:0;
-  }
-  .login-container {
-    position: relative;
-    z-index:2;
-    background: rgba(0,0,0,0.7);
-    padding: 40px;
-    border-radius: 12px;
-    width: 350px;
-    margin:auto;
-    top:50%;
-    transform:translateY(-50%);
-    box-shadow: 0 0 20px #cb0404;
-  }
-  .login-container h2 {
-    text-align:center;
-    color:#cb0404;
-    margin-bottom:25px;
-  }
-  input {
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:none;
-    background: rgba(255,255,255,0.1);
-    color:#fff;
-  }
+  body, html { margin:0; padding:0; height:100%; font-family: 'Orbitron', sans-serif; overflow:hidden; background:#000; color:#fff; }
+  canvas { position:absolute; top:0; left:0; z-index:0; }
+  .login-container { position: relative; z-index:2; background: rgba(0,0,0,0.7); padding: 40px; border-radius:12px; width:350px; margin:auto; top:50%; transform:translateY(-50%); box-shadow:0 0 20px #cb0404; }
+  h2 { text-align:center; color:#cb0404; margin-bottom:25px; }
+  input { width:100%; padding:12px; margin:10px 0; border-radius:8px; border:none; background: rgba(255,255,255,0.1); color:#fff; }
   input::placeholder { color:#ccc; }
-  button {
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    background:#cb0404;
-    color:#fff;
-    font-weight:bold;
-    border-radius:8px;
-    cursor:pointer;
-    transition: all 0.3s ease;
-  }
-  button:hover {
-    background:#ff0000;
-    box-shadow:0 0 10px #ff0000;
-  }
-  .link {
-    text-align:center;
-    margin-top:15px;
-  }
-  .link a {
-    color:#00ffc3;
-    text-decoration:none;
-  }
-  .error-msg {
-    color: #ff4444;
-    font-size: 0.9em;
-  }
+  button { width:100%; padding:12px; margin-top:15px; border:none; background:#cb0404; color:#fff; font-weight:bold; border-radius:8px; cursor:pointer; transition: all 0.3s ease; }
+  button:hover { background:#ff0000; box-shadow:0 0 10px #ff0000; }
+  .link { text-align:center; margin-top:15px; }
+  .link a { color:#00ffc3; text-decoration:none; }
+  .error-msg { color: #ff4444; font-size: 0.9em; }
 </style>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -102,17 +44,18 @@ const firebaseConfig = {
   storageBucket: "edge-of-survival-17795.firebasestorage.app",
   messagingSenderId: "474806016374",
   appId: "1:474806016374:web:6f83abe843e4e0bbca4257"
-};
+  };
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
+  const db = firebase.firestore();
 
   function login() {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
     const errorEl = document.getElementById('error');
 
-    if(email === "" || password === "") {
+    if(!email || !password) {
       errorEl.textContent = "Please enter email and password";
       return;
     } else {
@@ -120,16 +63,28 @@ const firebaseConfig = {
     }
 
     auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        alert('Login successful!');
-        window.location.href = "dashboard.html"; // dashboard
+      .then((userCredential) => {
+        const user = userCredential.user;
+        db.collection('users').doc(user.uid).get()
+          .then(doc => {
+            if(doc.exists){
+              const role = doc.data().role;
+              if(role === "student") window.location.href = "student-dashboard.html";
+              else if(role === "guardian") window.location.href = "guardian-dashboard.html";
+              else if(role === "institution") window.location.href = "institution-dashboard.html";
+              else errorEl.textContent = "Role not recognized.";
+            } else {
+              errorEl.textContent = "User data not found in Firestore.";
+            }
+          })
+          .catch(err => { errorEl.textContent = err.message; });
       })
       .catch((error) => {
         errorEl.textContent = error.message;
       });
   }
 
-  // Starfield animation (same as signup page)
+  // STARFIELD ANIMATION - EXACTLY SAME AS LANDING PAGE
   const canvas = document.getElementById("starfield");
   const ctx = canvas.getContext("2d");
 
@@ -138,8 +93,8 @@ const firebaseConfig = {
   let width = window.innerWidth;
   let height = window.innerHeight;
   let focalLength = width;
-  let centerX = width / 2;
-  let centerY = height / 2;
+  let centerX = width/2;
+  let centerY = height/2;
 
   canvas.width = width;
   canvas.height = height;
@@ -147,58 +102,48 @@ const firebaseConfig = {
   window.addEventListener('resize', () => {
     width = window.innerWidth;
     height = window.innerHeight;
-    centerX = width / 2;
-    centerY = height / 2;
+    centerX = width/2;
+    centerY = height/2;
     focalLength = width;
     canvas.width = width;
     canvas.height = height;
   });
 
   function randomColor() {
-    const colors = ['#ffffff', '#00ffc3', '#00aaff', '#ffdd00', '#ff00cc'];
-    return colors[Math.floor(Math.random() * colors.length)];
+    const colors = ['#ffffff','#00ffc3','#00aaff','#ffdd00','#ff00cc'];
+    return colors[Math.floor(Math.random()*colors.length)];
   }
 
   function Star() {
-    this.x = Math.random() * width - centerX;
-    this.y = Math.random() * height - centerY;
-    this.z = Math.random() * width;
+    this.x = Math.random()*width - centerX;
+    this.y = Math.random()*height - centerY;
+    this.z = Math.random()*width;
     this.color = randomColor();
 
     this.update = () => {
       this.z -= 4;
-      if (this.z <= 0) {
-        this.x = Math.random() * width - centerX;
-        this.y = Math.random() * height - centerY;
+      if(this.z <= 0) {
+        this.x = Math.random()*width - centerX;
+        this.y = Math.random()*height - centerY;
         this.z = width;
         this.color = randomColor();
       }
-    };
+    }
 
     this.draw = () => {
       const k = focalLength / this.z;
-      const x = this.x * k + centerX;
-      const y = this.y * k + centerY;
-      const size = (1 - this.z / width) * 4;
-
+      const x = this.x*k + centerX;
+      const y = this.y*k + centerY;
+      const size = (1 - this.z/width)*4;
       ctx.beginPath();
       ctx.fillStyle = this.color;
-      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.arc(x,y,size,0,Math.PI*2);
       ctx.fill();
-    };
+    }
   }
 
-  function createStars() {
-    stars = [];
-    for (let i = 0; i < numStars; i++) stars.push(new Star());
-  }
-
-  function animate() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    ctx.fillRect(0, 0, width, height);
-    stars.forEach(star => { star.update(); star.draw(); });
-    requestAnimationFrame(animate);
-  }
+  function createStars() { stars=[]; for(let i=0;i<numStars;i++) stars.push(new Star()); }
+  function animate() { ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fillRect(0,0,width,height); stars.forEach(s=>{s.update();s.draw();}); requestAnimationFrame(animate); }
 
   createStars();
   animate();
