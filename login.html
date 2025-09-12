@@ -69,9 +69,9 @@ const firebaseConfig = {
           .then(doc => {
             if(doc.exists){
               const role = doc.data().role;
-              if(role === "student") window.location.href = "student-dashboard.html";
-              else if(role === "guardian") window.location.href = "guardian-dashboard.html";
-              else if(role === "institution") window.location.href = "institution-dashboard.html";
+              if(role === "student") window.location.href = "dashboard3.html";
+              else if(role === "guardian") window.location.href = "dashboard2.html";
+              else if(role === "institution") window.location.href = "dashboard1.html";
               else errorEl.textContent = "Role not recognized.";
             } else {
               errorEl.textContent = "User data not found in Firestore.";
