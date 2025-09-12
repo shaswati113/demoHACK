@@ -7,22 +7,32 @@
   <link rel="stylesheet" href="modules.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Orbitron", sans-serif;
       background: linear-gradient(135deg, #3a6186, #89253e);
       min-height: 100vh;
+      margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      flex-direction: column;
       color: white;
     }
 
+    header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+    }
+
     .modules-container {
+      flex: 1;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
       max-width: 900px;
       width: 100%;
+      margin: auto;
+      padding: 20px;
     }
 
     .module-box {
@@ -43,6 +53,10 @@
   </style>
 </head>
 <body>
+  <header>
+    🌍 Edge of Survival – Select Your Quiz
+  </header>
+
   <div class="modules-container">
     <!-- Example static boxes -->
     <div class="module-box" onclick="openQuiz(1)">Quiz 1</div>
@@ -53,7 +67,6 @@
 
   <script>
     function openQuiz(quizNumber) {
-      // Redirect to quiz.html and pass quiz number
       window.location.href = `quiz.html?quiz=${quizNumber}`;
     }
   </script>

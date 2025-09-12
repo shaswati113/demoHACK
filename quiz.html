@@ -1,13 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Disaster Quiz</title>
   <link rel="stylesheet" href="quiz.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    body {
+      font-family: "Orbitron", sans-serif;
+      background: linear-gradient(135deg, #2a5298, #617891);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      color: white;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+    }
+
+    .quiz-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .scenario-container {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    .options-container button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: 0.3s;
+    }
+
+    .options-container button:hover {
+      background: white;
+      color: #2a5298;
+    }
+
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      background: #ffffff33;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .next-btn:hover {
+      background: white;
+      color: #2a5298;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    🚨 Edge of Survival – Quiz
+  </header>
+
   <div class="quiz-container">
     <div id="scenario-container" class="scenario-container"></div>
     <div id="options-container" class="options-container"></div>
@@ -16,29 +88,9 @@
 
   <div id="result-page" class="result-page" style="display:none;">
     <h2 id="result-message"></h2>
-    <button onclick="finishQuiz()">Finish</button>
+    <button onclick="restartQuiz()">Start Over</button>
   </div>
 
   <script src="app.js"></script>
-  <script>
-    // Called when quiz ends
-    function finishQuiz() {
-      // Example: score = 80 (replace with real score from your app.js)
-      const score = window.quizScore || Math.floor(Math.random() * 100);
-      const isSuccess = score > 50; // Example pass condition
-
-      // Redirect to result.html with data in query string
-      window.location.href = `result.html?success=${isSuccess}&score=${score}`;
-    }
-  // Read quiz number from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const quizNumber = urlParams.get("quiz") || 1; // default to quiz 1
-
-  console.log("Loading Quiz:", quizNumber);
-
-  // You can now use quizNumber inside your scenario generator
-  // Example: window.generateScenario("Earthquake") based on quizNumber
-
-  </script>
 </body>
 </html>
