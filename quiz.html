@@ -1,96 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Disaster Quiz</title>
-  <link rel="stylesheet" href="quiz.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <style>
-    body {
-      font-family: "Orbitron", sans-serif;
-      background: linear-gradient(135deg, #2a5298, #617891);
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      color: white;
-    }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.3);
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-    }
-
-    .quiz-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .scenario-container {
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-    }
-
-    .options-container button {
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      transition: 0.3s;
-    }
-
-    .options-container button:hover {
-      background: white;
-      color: #2a5298;
-    }
-
-    .next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: none;
-      background: #ffffff33;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .next-btn:hover {
-      background: white;
-      color: #2a5298;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
 </head>
 <body>
-  <header>
-    🚨 Edge of Survival – Quiz
-  </header>
+    <div class="quiz-container">
+        <div id="scenario-container" class="scenario-container">
+            <!-- The scenario will appear here -->
+        </div>
+        <div id="options-container" class="options-container">
+            <!-- The options will be dynamically generated here -->
+        </div>
+        <button id="next-btn" class="next-btn" style="display:none;">Next</button>
+    </div>
 
-  <div class="quiz-container">
-    <div id="scenario-container" class="scenario-container"></div>
-    <div id="options-container" class="options-container"></div>
-    <button id="next-btn" class="next-btn" style="display:none;">Next</button>
-  </div>
+    <div id="result-page" class="result-page" style="display:none;">
+        <h2 id="result-message"></h2>
+        <button onclick="restartQuiz()">Start Over</button>
+    </div>
 
-  <div id="result-page" class="result-page" style="display:none;">
-    <h2 id="result-message"></h2>
-    <button onclick="restartQuiz()">Start Over</button>
-  </div>
-
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
