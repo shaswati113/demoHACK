@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <!-- Anime.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-
   <!-- Style -->
   <style>
     * {
@@ -112,8 +111,7 @@
       <button class="btn" onclick="playAgain()">Play Again / Next</button>
       <button class="btn" onclick="goHome()">Home</button>
     </div>
-
-    <div id="pointsDisplay">You scored <strong id="points">0</strong> points!</div>
+    <div id="pointsDisplay">You scored <strong id="points">0</strong> points!</div> <!--points from database-->
   </div>
 
   <!-- JavaScript -->
@@ -140,18 +138,16 @@
     }
 
     function playAgain() {
-      alert("Redirecting to the next challenge...");
-      // Simulate navigation
+      // Add logic to restart or go to next challenge
     }
 
     function goHome() {
-      alert("Returning to home...");
-      // Simulate navigation
+      window.location.href = 'home.html'; // Change to your home page
     }
 
     // Confetti
     function launchConfetti() {
-      for (let i = 0; i < 150; i++) {
+      for (let i = 0; i < 150 ; i++) {
         const confetti = document.createElement('div');
         confetti.style.position = 'absolute';
         confetti.style.width = '10px';
@@ -200,3 +196,4 @@
   </script>
 </body>
 </html>
+
