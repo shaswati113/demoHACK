@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard (I)</title>
+  <style>
+    :root {
+      --space-cadet: #2B2D42;
+      --slate-gray: #708090;
+      --tan: #D2B48C;
+      --coffee: #6F4E37;
+      --caput-mortuum: #592720;
+      --gradient-primary: linear-gradient(135deg, var(--space-cadet), var(--slate-gray));
+      --gradient-secondary: linear-gradient(135deg, var(--tan), #E6C79A);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--gradient-secondary);
+      min-height: 100vh;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background: var(--gradient-primary);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(43, 45, 66, 0.3);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(200%) rotate(45deg); }
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Main Layout */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transform: translateX(-10px);
+      animation: slideInLeft 0.8s ease-out forwards;
+    }
+
+    @keyframes slideInLeft {
+      to { transform: translateX(0); }
+    }
+
+    .profile-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-pic::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: rotate(45deg);
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(43, 45, 66, 0.3);
+    }
+
+    .profile-pic:hover::before {
+      opacity: 1;
+      animation: profileShine 0.6s ease-out;
+    }
+
+    @keyframes profileShine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .links {
+      background: var(--caput-mortuum);
+      border-radius: 15px;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .nav-link {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      margin: 8px 0;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    /* Main Content */
+    .main-content {
+      transform: translateX(10px);
+      animation: slideInRight 0.8s ease-out forwards;
+    }
+
+    @keyframes slideInRight {
+      to { transform: translateX(0); }
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+    }
+
+    .content-card h2 {
+      color: var(--space-cadet);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .content-card h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--coffee);
+      border-radius: 2px;
+    }
+
+    .content-card p {
+      color: var(--coffee);
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+
+    .content-link {
+      color: var(--caput-mortuum);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .content-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--caput-mortuum);
+      transition: width 0.3s ease;
+    }
+
+    .content-link:hover::after {
+      width: 100%;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .sidebar {
+        padding: 20px;
+      }
+
+      .profile-pic {
+        width: 80px;
+        height: 80px;
+        font-size: 24px;
+      }
+
+      .content-card {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .content-card h2 {
+        font-size: 28px;
+      }
+    }
+
+    /* Floating particles animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--space-cadet);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 0.5s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 0.3s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 1.8s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 2.2s;"></div>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>DASHBOARD (I)</h1>
+    </header>
+
+    <div class="main-layout">
+      <aside class="sidebar">
+        <div class="profile-section">
+          <div class="profile-pic">U</div>
+        </div>
+        
+        <nav class="links">
+          <a href="#" class="nav-link">List</a>
+          <a href="#" class="nav-link">Contacts</a>
+          <a href="#" class="nav-link">Resources</a>
+          <a href="#" class="nav-link">Settings</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <div class="content-card">
+          <h2>Username</h2>
+          <p>Welcome to your personalized dashboard. This space contains all your essential information, quick access to important features, and real-time updates about your account status.</p>
+          <p><a href="#" class="content-link">View Complete Profile →</a></p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Add interactive hover effects
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateX(10px) scale(1.02)';
+      });
+      
+      link.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateX(5px) scale(1)';
+      });
+    });
+
+    // Parallax effect for content card
+    document.addEventListener('mousemove', (e) => {
+      const card = document.querySelector('.content-card');
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        const xRotation = ((y - rect.height / 2) / rect.height) * 5;
+        const yRotation = ((x - rect.width / 2) / rect.width) * -5;
+        
+        card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+      } else {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      }
+    });
+  </script>
+</body>
+</html>
