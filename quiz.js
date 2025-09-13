@@ -1,12 +1,12 @@
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: "AIzaSyDCMr1zHLC26cr5Y-Dzq1Ju2aC-7_voXLo",
+  authDomain: "edge-of-survival-17795.firebaseapp.com",
+  projectId: "edge-of-survival-17795",
+  storageBucket: "edge-of-survival-17795.firebasestorage.app",
+  messagingSenderId: "474806016374",
+  appId: "1:474806016374:web:6f83abe843e4e0bbca4257",
+  measurementId: "G-115VZ1FYJ0"
 };
 
 // Initialize Firebase
