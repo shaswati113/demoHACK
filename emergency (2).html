@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Contacts</title>
+  <style>
+    :root {
+      --space-cadet: #2B2D42;
+      --slate-gray: #708090;
+      --tan: #D2B48C;
+      --coffee: #6F4E37;
+      --caput-mortuum: #592720;
+      --emergency-red: #DC143C;
+      --gradient-primary: linear-gradient(135deg, var(--space-cadet), var(--slate-gray));
+      --gradient-emergency: linear-gradient(135deg, var(--emergency-red), #B22222);
+      --gradient-secondary: linear-gradient(135deg, var(--tan), #E6C79A);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--gradient-secondary);
+      min-height: 100vh;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background: var(--gradient-emergency);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 50px rgba(220, 20, 60, 0.4);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: emergencyPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes emergencyPulse {
+      0%, 100% { left: -100%; }
+      50% { left: 100%; }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .emergency-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    /* Main Layout */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* Contacts Panel */
+    .contacts-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideInLeft 1s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .panel-title {
+      color: var(--space-cadet);
+      font-size: 32px;
+      font-weight: 800;
+      position: relative;
+    }
+
+    .panel-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-emergency);
+      border-radius: 2px;
+    }
+
+    .add-contact-btn {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .add-contact-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.3s ease;
+    }
+
+    .add-contact-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(43, 45, 66, 0.3);
+    }
+
+    .add-contact-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Contact Cards */
+    .contacts-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 25px;
+      border-left: 6px solid var(--emergency-red);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.1), transparent);
+      transition: left 0.4s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(220, 20, 60, 0.2);
+      border-left-color: var(--caput-mortuum);
+    }
+
+    .contact-card:hover::before {
+      left: 100%;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .contact-details h3 {
+      color: var(--space-cadet);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .contact-details p {
+      color: var(--coffee);
+      font-size: 16px;
+      margin: 4px 0;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .call-btn {
+      background: var(--gradient-emergency);
+      color: white;
+    }
+
+    .call-btn:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 10px 20px rgba(220, 20, 60, 0.4);
+    }
+
+    .edit-btn {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .edit-btn:hover {
+      transform: scale(1.1) rotate(-10deg);
+      box-shadow: 0 10px 20px rgba(43, 45, 66, 0.4);
+    }
+
+    /* Quick Call Panel */
+    .quick-call-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: slideInRight 1s ease-out;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .quick-call-title {
+      color: var(--space-cadet);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+    }
+
+    .quick-call-title::before {
+      content: '🚨';
+      position: absolute;
+      left: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      animation: emergency-blink 1s infinite;
+    }
+
+    @keyframes emergency-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .emergency-button {
+      width: 100%;
+      height: 80px;
+      background: var(--gradient-emergency);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 24px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .emergency-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .emergency-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(220, 20, 60, 0.5);
+    }
+
+    .emergency-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .emergency-button:active {
+      transform: scale(0.98);
+    }
+
+    .quick-actions {
+      display: grid;
+      gap: 15px;
+    }
+
+    .quick-action {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(43, 45, 66, 0.05);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quick-action:hover {
+      background: rgba(43, 45, 66, 0.1);
+      transform: translateX(5px);
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .action-text {
+      color: var(--space-cadet);
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from { transform: translate(-50%, -60%); opacity: 0; }
+      to { transform: translate(-50%, -50%); opacity: 1; }
+    }
+
+    .modal h2 {
+      color: var(--space-cadet);
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin: 20px 0;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--coffee);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid rgba(43, 45, 66, 0.1);
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--space-cadet);
+      box-shadow: 0 0 0 3px rgba(43, 45, 66, 0.1);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .modal-btn {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .save-btn {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .cancel-btn {
+      background: rgba(112, 128, 144, 0.2);
+      color: var(--slate-gray);
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .quick-call-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .contacts-panel,
+      .quick-call-panel {
+        padding: 25px;
+      }
+
+      .panel-header {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .contact-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .contact-actions {
+        align-self: flex-end;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .emergency-icon {
+        font-size: 36px;
+      }
+
+      .modal-content {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="emergency-icon">🚨</div>
+      <h1>EMERGENCY CONTACTS</h1>
+    </header>
+
+    <div class="main-layout">
+      <div class="contacts-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">CONTACTS</h2>
+          <button class="add-contact-btn" onclick="openModal()">
+            + Add Contact
+          </button>
+        </div>
+
+        <div class="contacts-grid">
+          <div class="contact-card">
+            <div class="contact-info">
+              <div class="contact-details">
+                <h3>Emergency Services</h3>
+                <p>📞 911</p>
+                <p>🏥 General Emergency</p>
+              </div>
+              <div class="contact-actions">
+                <button class="action-btn call-btn" onclick="makeCall('911')">📞</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-info">
+              <div class="contact-details">
+                <h3>Dr. Sarah Johnson</h3>
+                <p>📞 (555) 123-4567</p>
+                <p>🏥 Family Doctor</p>
+              </div>
+              <div class="contact-actions">
+                <button class="action-btn call-btn" onclick="makeCall('(555) 123-4567')">📞</button>
+                <button class="action-btn edit-btn" onclick="editContact(1)">✏️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-info">
+              <div class="contact-details">
+                <h3>John Smith</h3>
+                <p>📞 (555) 987-6543</p>
+                <p>👨‍👩‍👧‍👦 Emergency Contact</p>
+              </div>
+              <div class="contact-actions">
+                <button class="action-btn call-btn" onclick="makeCall('(555) 987-6543')">📞</button>
+                <button class="action-btn edit-btn" onclick="editContact(2)">✏️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-call-panel">
+        <h3 class="quick-call-title">Dummy Call</h3>
+        
+        <button class="emergency-button" onclick="emergencyCall()">
+          Emergency Call
+        </button>
+
+        <div class="quick-actions">
+          <div class="quick-action" onclick="quickAction('police')">
+            <div class="action-icon">👮</div>
+            <div class="action-text">Police</div>
+          </div>
+          <div class="quick-action" onclick="quickAction('fire')">
+            <div class="action-icon">🚒</div>
+            <div class="action-text">Fire Department</div>
+          </div>
+          <div class="quick-action" onclick="quickAction('medical')">
+            <div class="action-icon">🚑</div>
+            <div class="action-text">Medical Emergency</div>
+          </div>
+          <div class="quick-action" onclick="quickAction('poison')">
+            <div class="action-icon">☠️</div>
+            <div class="action-text">Poison Control</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for adding/editing contacts -->
+  <div class="modal" id="contactModal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Add New Contact</h2>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" placeholder="Enter contact name" required>
+        </div>
+        <div class="form-group">
+          <label for="contactPhone">Phone Number</label>
+          <input type="tel" id="contactPhone" placeholder="Enter phone number" required>
+        </div>
+        <div class="form-group">
+          <label for="contactType">Relationship/Type</label>
+          <input type="text" id="contactType" placeholder="e.g., Doctor, Family, Friend" required>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="modal-btn save-btn">Save Contact</button>
+          <button type="button" class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal functionality
+    function openModal() {
+      document.getElementById('contactModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('contactModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.getElementById('contactForm').reset();
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('contactModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('contactName').value;
+      const phone = document.getElementById('contactPhone').value;
+      const type = document.getElementById('contactType').value;
+      
+      // Animation for successful save
+      const saveBtn = document.querySelector('.save-btn');
+      saveBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+      saveBtn.textContent = 'Saved!';
+      
+      setTimeout(() => {
+        saveBtn.style.background = 'var(--gradient-primary)';
+        saveBtn.textContent = 'Save Contact';
+        closeModal();
+        
+        // Here you would typically add the contact to the list
+        showNotification('Contact saved successfully!');
+      }, 1000);
+    });
+
+    // Call functionality
+    function makeCall(number) {
+      showNotification(`Calling ${number}...`);
+      
+      // Animate the call button
+      event.target.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        event.target.style.transform = 'scale(1)';
+      }, 200);
+    }
+
+    function emergencyCall() {
+      const btn = event.target;
+      btn.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a5a)';
+      btn.textContent = 'CALLING...';
+      
+      setTimeout(() => {
+        btn.style.background = 'var(--gradient-emergency)';
+        btn.textContent = 'Emergency Call';
+        showNotification('Emergency call initiated!');
+      }, 2000);
+    }
+
+    function quickAction(type) {
+      const actionMap = {
+        police: '911 - Police',
+        fire: '911 - Fire Department',
+        medical: '911 - Medical Emergency',
+        poison: '1-800-222-1222 - Poison Control'
+      };
+      
+      showNotification(`Connecting to ${actionMap[type]}...`);
+    }
+
+    function editContact(id) {
+      document.getElementById('modalTitle').textContent = 'Edit Contact';
+      openModal();
+      
+      // Pre-fill form with existing data (example)
+      if (id === 1) {
+        document.getElementById('contactName').value = 'Dr. Sarah Johnson';
+        document.getElementById('contactPhone').value = '(555) 123-4567';
+        document.getElementById('contactType').value = 'Family Doctor';
+      }
+    }
+
+    // Notification system
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--gradient-primary);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 10000;
+        animation: slideInNotification 0.3s ease-out;
+      `;
+      
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOutNotification 0.3s ease-out forwards';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    // Add notification animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInNotification {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutNotification {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Enhanced hover effects for contact cards
+    document.querySelectorAll('.contact-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.background = 'rgba(255, 255, 255, 0.95)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.background = 'rgba(255, 255, 255, 0.8)';
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key === 'n') {
+        e.preventDefault();
+        openModal();
+      }
+      
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
