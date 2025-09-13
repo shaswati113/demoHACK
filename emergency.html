@@ -574,11 +574,11 @@
             <div class="contact-info">
               <div class="contact-details">
                 <h3>Emergency Services</h3>
-                <p>📞 911</p>
+                <p>📞 112</p>
                 <p>🏥 General Emergency</p>
               </div>
               <div class="contact-actions">
-                <button class="action-btn call-btn" onclick="makeCall('911')">📞</button>
+                <button class="action-btn call-btn" onclick="makeCall('112')">📞</button>
               </div>
             </div>
           </div>
@@ -586,8 +586,8 @@
           <div class="contact-card">
             <div class="contact-info">
               <div class="contact-details">
-                <h3>Dr. Sarah Johnson</h3>
-                <p>📞 (555) 123-4567</p>
+                <h3>Dr. Family Doctor</h3>
+                <p>📞 (+91) 0123-456789</p>
                 <p>🏥 Family Doctor</p>
               </div>
               <div class="contact-actions">
@@ -600,8 +600,8 @@
           <div class="contact-card">
             <div class="contact-info">
               <div class="contact-details">
-                <h3>John Smith</h3>
-                <p>📞 (555) 987-6543</p>
+                <h3>Emergency Contact</h3>
+                <p>📞 (+91) 9987-645543</p>
                 <p>👨‍👩‍👧‍👦 Emergency Contact</p>
               </div>
               <div class="contact-actions">
@@ -621,6 +621,10 @@
         </button>
 
         <div class="quick-actions">
+          <div class="quick-action" onclick="quickAction('national')">
+            <div class="action-icon">⚠️</div>
+            <div class="action-text">National Emergency</div>
+          </div>
           <div class="quick-action" onclick="quickAction('police')">
             <div class="action-icon">👮</div>
             <div class="action-text">Police</div>
@@ -633,9 +637,9 @@
             <div class="action-icon">🚑</div>
             <div class="action-text">Medical Emergency</div>
           </div>
-          <div class="quick-action" onclick="quickAction('poison')">
+          <div class="quick-action" onclick="quickAction('disaster')">
             <div class="action-icon">☠️</div>
-            <div class="action-text">Poison Control</div>
+            <div class="action-text">Disaster Management</div>
           </div>
         </div>
       </div>
@@ -735,10 +739,11 @@
 
     function quickAction(type) {
       const actionMap = {
-        police: '911 - Police',
-        fire: '911 - Fire Department',
-        medical: '911 - Medical Emergency',
-        poison: '1-800-222-1222 - Poison Control'
+        national:'112 - National Emergency Number',
+        police: '112 - Police',
+        fire: '101 - Fire Department',
+        medical: '102 - Medical Emergency',
+        disaster: '108 - Disaster Management Services'
       };
       
       showNotification(`Connecting to ${actionMap[type]}...`);
@@ -750,8 +755,8 @@
       
       // Pre-fill form with existing data (example)
       if (id === 1) {
-        document.getElementById('contactName').value = 'Dr. Sarah Johnson';
-        document.getElementById('contactPhone').value = '(555) 123-4567';
+        document.getElementById('contactName').value = 'Dr. Family Doctor';
+        document.getElementById('contactPhone').value = '(+91) 0123-456789';
         document.getElementById('contactType').value = 'Family Doctor';
       }
     }

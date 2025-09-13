@@ -1,0 +1,24 @@
+{
+  "name": "demohack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "quiz.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaswati113/demoHACK.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaswati113/demoHACK/issues"
+  },
+  "homepage": "https://github.com/shaswati113/demoHACK#readme",
+  "dependencies": {
+    "animejs": "^4.1.3",
+    "bootstrap": "^5.3.8"
+  }
+}

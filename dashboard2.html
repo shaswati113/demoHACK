@@ -1,31 +1,33 @@
+<!-- Teachers/Professors -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard (T)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <title>Dashboard</title>
   <style>
     :root {
-      --space-cadet: #2B2D42;
-      --slate-gray: #708090;
+      --space-cadet: #041A38;
+      --slate-gray: #4A9ACB;
       --tan: #D2B48C;
-      --coffee: #6F4E37;
-      --caput-mortuum: #592720;
-      --gradient-primary: linear-gradient(135deg, var(--space-cadet), var(--slate-gray));
-      --gradient-secondary: linear-gradient(135deg, var(--tan), #E6C79A);
+      --gradient-primary: linear-gradient(15deg, var(--space-cadet), var(--slate-gray));
+      --gradient-secondary: #000
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Inter", "Segoe UI", sans-serif;
+      font-family: Orbitron, sans-serif;
     }
 
     body {
       background: var(--gradient-secondary);
       min-height: 100vh;
       animation: fadeIn 0.8s ease-out;
+       color:white;
     }
 
     @keyframes fadeIn {
@@ -84,16 +86,16 @@
       grid-template-columns: 300px 1fr;
       gap: 30px;
       align-items: start;
+      
     }
 
     /* Sidebar */
     .sidebar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
+      background: transparent;
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+      box-shadow: rgba(237, 232, 232, 0.09) 0px 3px 12px;
       transform: translateY(20px);
       animation: slideUp 1s ease-out forwards;
     }
@@ -147,7 +149,7 @@
     }
 
     .links {
-      background: var(--caput-mortuum);
+      background: transparent;
       border-radius: 15px;
       padding: 25px;
       position: relative;
@@ -175,6 +177,7 @@
       display: block;
       color: white;
       text-decoration: none;
+      text-transform:uppercase;
       padding: 18px 25px;
       margin: 10px 0;
       border-radius: 12px;
@@ -218,12 +221,11 @@
     }
 
     .content-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: transparent;
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: white 0px 0px 10px;
       position: relative;
       overflow: hidden;
     }
@@ -243,7 +245,7 @@
     }
 
     .user-info h2 {
-      color: var(--space-cadet);
+      color: white;
       font-size: 36px;
       font-weight: 800;
       margin-bottom: 15px;
@@ -256,7 +258,7 @@
       position: absolute;
       bottom: -8px;
       left: 0;
-      width: 80px;
+      width: 110%;
       height: 4px;
       background: linear-gradient(90deg, var(--coffee), var(--caput-mortuum));
       border-radius: 2px;
@@ -264,19 +266,19 @@
     }
 
     @keyframes glow {
-      from { box-shadow: 0 0 5px var(--coffee); }
-      to { box-shadow: 0 0 20px var(--coffee), 0 0 30px var(--coffee); }
+      from { box-shadow: 0 0 5px var(--tan); }
+      to { box-shadow: 0 0 20px var(--tan), 0 0 30px var(--tan); }
     }
 
     .description {
-      color: var(--coffee);
+      color: var(--tan);
       font-size: 18px;
       line-height: 1.7;
       margin: 20px 0;
     }
 
     .content-link {
-      color: var(--caput-mortuum);
+      color: var(--tan);
       text-decoration: none;
       font-weight: 600;
       font-size: 18px;
@@ -323,7 +325,7 @@
     }
 
     .table-container {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(80, 18, 18, 0.8);
       border-radius: 15px;
       padding: 30px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -414,12 +416,48 @@
         font-size: 14px;
       }
     }
+
+    /* Floating particles animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index:0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
   </style>
 </head>
 <body>
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 0.5s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 0.3s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 1.8s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 2.2s;"></div>
+  </div>
   <div class="container">
     <header>
-      <h1>DASHBOARD (T)</h1>
+      <h1>DASHBOARD</h1>
     </header>
 
     <div class="main-layout">
@@ -430,9 +468,9 @@
         
         <nav class="links">
           <a href="checklist.html" class="nav-link">List</a>
-          <a href="emergency.html.html" class="nav-link">Contacts</a>
+          <a href="emergency.html" class="nav-link">Contacts</a>
           <a href="resource.html" class="nav-link">Resources</a>
-          <a href="setting.html" class="nav-link">Settings</a>
+          <a href="home.html" class="nav-link">Home</a>
         </nav>
       </aside>
 
@@ -539,3 +577,39 @@
     const profilePic = document.querySelector('.profile-pic');
 
     profilePic.addEventListener
+  </script>
+  <script>
+  const particleContainer = document.querySelector('.particles');
+  const numParticles = 50;
+
+  for (let i = 0; i < numParticles; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    // Random starting position
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.top = Math.random() * 100 + 'vh';
+
+    // Add to DOM
+    particleContainer.appendChild(particle);
+
+    // Animate using anime.js
+    anime({
+      targets: particle,
+      translateX: [
+        { value: Math.random() * 100 - 50, duration: 5000 + Math.random() * 5000 },
+        { value: 0, duration: 5000 + Math.random() * 5000 }
+      ],
+      translateY: [
+        { value: Math.random() * 100 - 50, duration: 5000 + Math.random() * 5000 },
+        { value: 0, duration: 5000 + Math.random() * 5000 }
+      ],
+      direction: 'alternate',
+      loop: true,
+      easing: 'easeInOutSine',
+      delay: Math.random() * 1000
+    });
+  }
+</script>
+</body>
+</html>

@@ -4,23 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resources</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --space-cadet: #2B2D42;
-      --slate-gray: #708090;
+      --space-cadet: #dbe7ee; ;
+      --slate-gray: #97D4F1;;
       --tan: #D2B48C;
-      --coffee: #6F4E37;
-      --caput-mortuum: #592720;
-      --gradient-primary: linear-gradient(135deg, var(--space-cadet), var(--slate-gray));
+      --coffee: #ffffff;
+      --caput-mortuum: #ffffff;
+      --gradient-primary: linear-gradient(135deg, #041A38, var(--slate-gray));
       --gradient-secondary: linear-gradient(135deg, var(--tan), #E6C79A);
-      --gradient-accent: linear-gradient(45deg, var(--coffee), var(--caput-mortuum));
+      --gradient-accent: linear-gradient(45deg, #4A9ACB, #041A38);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Inter", "Segoe UI", sans-serif;
+      font-family:Orbitron, sans-serif;
     }
 
     body {
@@ -832,7 +833,7 @@
           
           if (matchesFilter && matchesSearch) {
             card.style.display = 'block';
-            card.style.animation = cardSlideIn 0.5s ease-out ${visibleCount * 0.1}s both;
+            card.style.animation = `cardSlideIn 0.5s ease-out ${visibleCount * 0.1}s both`;
             visibleCount++;
           } else {
             card.style.display = 'none';
@@ -975,7 +976,7 @@
       // Add some initial animation delay
       setTimeout(() => {
         document.querySelectorAll('.resource-card').forEach((card, index) => {
-          card.style.animationDelay = ${index * 0.1}s;
+          card.style.animationDelay = `${index * 0.1}s`;
         });
       }, 100);
     });

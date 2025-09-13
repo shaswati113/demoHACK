@@ -1,31 +1,33 @@
+<!-- Institutional -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard (I)</title>
+  <title>Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --space-cadet: #2B2D42;
-      --slate-gray: #708090;
+      --space-cadet: #041A38;
+      --slate-gray: #4A9ACB;
       --tan: #D2B48C;
-      --coffee: #6F4E37;
-      --caput-mortuum: #592720;
-      --gradient-primary: linear-gradient(135deg, var(--space-cadet), var(--slate-gray));
-      --gradient-secondary: linear-gradient(135deg, var(--tan), #E6C79A);
+      --gradient-primary: linear-gradient(15deg, var(--space-cadet), var(--slate-gray));
+      --gradient-secondary: #000
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Inter", "Segoe UI", sans-serif;
+      font-family: Orbitron, sans-serif;
     }
 
     body {
       background: var(--gradient-secondary);
       min-height: 100vh;
       animation: fadeIn 0.6s ease-out;
+      color:white;
     }
 
     @keyframes fadeIn {
@@ -88,11 +90,10 @@
 
     /* Sidebar */
     .sidebar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
+      background: transparent;
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: rgba(237, 232, 232, 0.09) 0px 3px 12px;
       transform: translateX(-10px);
       animation: slideInLeft 0.8s ease-out forwards;
     }
@@ -153,7 +154,8 @@
     }
 
     .links {
-      background: var(--caput-mortuum);
+      background: transparent;
+      text-align: center;;
       border-radius: 15px;
       padding: 20px;
       overflow: hidden;
@@ -163,6 +165,7 @@
       display: block;
       color: white;
       text-decoration: none;
+      text-transform:uppercase;
       padding: 15px 20px;
       margin: 8px 0;
       border-radius: 10px;
@@ -186,7 +189,7 @@
     .nav-link:hover {
       background: rgba(255, 255, 255, 0.15);
       transform: translateX(5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
     }
 
     .nav-link:hover::before {
@@ -204,12 +207,11 @@
     }
 
     .content-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: transparent;
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: white 0px 0px 10px;
       position: relative;
       overflow: hidden;
     }
@@ -221,11 +223,10 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: var(--gradient-primary);
     }
 
     .content-card h2 {
-      color: var(--space-cadet);
+      color: white;
       font-size: 32px;
       font-weight: 700;
       margin-bottom: 20px;
@@ -239,19 +240,20 @@
       left: 0;
       width: 60px;
       height: 3px;
-      background: var(--coffee);
+      background: var(--tan);
       border-radius: 2px;
     }
 
     .content-card p {
-      color: var(--coffee);
+      color: white;
       font-size: 18px;
       line-height: 1.6;
       margin: 20px 0;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 
     .content-link {
-      color: var(--caput-mortuum);
+      color: #D2B48C;
       text-decoration: none;
       font-weight: 600;
       font-size: 18px;
@@ -312,17 +314,16 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: -1;
+      z-index:0;
     }
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--space-cadet);
+      width: 3px;
+      height: 3px;
+      background: white;
       border-radius: 50%;
-      opacity: 0.3;
-      animation: float 6s infinite ease-in-out;
+      opacity: 0.5;
     }
 
     @keyframes float {
@@ -346,7 +347,7 @@
 
   <div class="container">
     <header>
-      <h1>DASHBOARD (I)</h1>
+      <h1>DASHBOARD</h1>
     </header>
 
     <div class="main-layout">
@@ -356,14 +357,10 @@
         </div>
         
         <nav class="links">
-
-  <a href="checklist.html" class="nav-link">List</a>
-  <a href="emergency.html" class="nav-link">Contacts</a>
-  <a href="resource.html" class="nav-link">Resources</a>
-  <a href="settings.html" class="nav-link">Settings</a>
-
-
-
+          <a href="checklist.html" class="nav-link">List</a>
+          <a href="emergency.html" class="nav-link">Contacts</a>
+          <a href="resource.html" class="nav-link">Resources</a>
+          <a href="home.html" class="nav-link">HOME</a>
         </nav>
       </aside>
 
@@ -406,6 +403,40 @@
       }
     });
   </script>
+  <script>
+  const particleContainer = document.querySelector('.particles');
+  const numParticles = 50;
+
+  for (let i = 0; i < numParticles; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    // Random starting position
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.top = Math.random() * 100 + 'vh';
+
+    // Add to DOM
+    particleContainer.appendChild(particle);
+
+    // Animate using anime.js
+    anime({
+      targets: particle,
+      translateX: [
+        { value: Math.random() * 100 - 50, duration: 5000 + Math.random() * 5000 },
+        { value: 0, duration: 5000 + Math.random() * 5000 }
+      ],
+      translateY: [
+        { value: Math.random() * 100 - 50, duration: 5000 + Math.random() * 5000 },
+        { value: 0, duration: 5000 + Math.random() * 5000 }
+      ],
+      direction: 'alternate',
+      loop: true,
+      easing: 'easeInOutSine',
+      delay: Math.random() * 1000
+    });
+  }
+</script>
+
 </body>
 </html>
 
